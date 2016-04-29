@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILE_PATH=./.env
+FILE_PATH=/root/.env
 
 rm -f $FILE_PATH
 
