@@ -14,6 +14,8 @@ def main(argv):
         for k,v in json_vars.iteritems():
             f.write(k + '=' + v + '\n')
 
+    print 'Wrote env file to ' + args.output
+
 if __name__ == "__main__":
     main(sys.argv[1:])
 
