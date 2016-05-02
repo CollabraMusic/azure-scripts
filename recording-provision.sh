@@ -59,6 +59,6 @@ require_opt "$MNT_SHARE_NAME" "--mnt-share-name"
 require_opt "$MNT_SHARE_DIR" "--mnt-share-dir"
 require_opt "$STORAGE_ACCESS_KEY" "--storage-access-key"
 
-chmod +x ./afx-utils-0.1.sh
+chmod +x ./afs-utils-0.1.sh
 ./afs-utils-0.1.sh " -a $STORAGE_ACCOUNT_NAME -p -c -s $MNT_SHARE_NAME  -b $MNT_SHARE_NAME -k $STORAGE_ACCESS_KEY"
 
