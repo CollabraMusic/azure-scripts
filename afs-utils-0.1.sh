@@ -239,3 +239,6 @@ then
     create_share "$SHARE_NAME"
     mount_share "$SHARE_NAME" "${BASE_DIRECTORY}/${SHARE_NAME}" $PERSIST
 fi
+
+echo "exit code "
+echo $?
