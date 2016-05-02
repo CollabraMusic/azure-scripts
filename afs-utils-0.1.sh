@@ -240,5 +240,3 @@ then
     mount_share "$SHARE_NAME" "${BASE_DIRECTORY}/${SHARE_NAME}" $PERSIST
 fi
 
-echo "exit code "
-echo $?
