@@ -146,24 +146,35 @@ mount_share() {
     echo "username=${STORAGE_ACCOUNT}" >> ${creds_file}
     echo "password=${ACCESS_KEY}" >> ${creds_file}
     chmod 600 ${creds_file}
-    
-    log "mounting share $share_name at $mount_location"
-    
-    if [ $(cat /etc/mtab | grep -o "${mount_location}") ];
+
+    if [[ $(cat /etc/mtab | grep -o "${mount_share} ${mount_location}") ]];
     then
-        error "location ${mount_location} is already mounted"
+        log "already mounted $share_name at $mount_location"
+    else
+        log "mounting share $share_name at $mount_location"
+
+        if [ $(cat /etc/mtab | grep -o "${mount_location}")];
+        then
+            error "location ${mount_location} is already mounted to a different share"
+        fi
+
+        [ -d "${mount_location}" ] || mkdir -p "${mount_location}"
+        mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}
+
+        if [ ! $(cat /etc/mtab | grep -o "${mount_location}") ];
+        then
+            error "mount failed"
+        fi
     fi
-    
-    [ -d "${mount_location}" ] || mkdir -p "${mount_location}"
-    mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}
-    
-    if [ ! $(cat /etc/mtab | grep -o "${mount_location}") ];
-    then
-        error "mount failed"
-    fi
-    
+
     if [ ${persist} ];
     then
+        if [[ $(cat /etc/fstab | grep -o "${mount_share} ${mount_location}") ]];
+        then
+            log "already persisted the mount"
+            return
+        fi
+
         # create a backup of fstab
         cp /etc/fstab /etc/fstab_backup
         
