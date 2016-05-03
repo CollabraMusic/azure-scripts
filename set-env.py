@@ -11,7 +11,9 @@ def main(argv):
     for line in sys.stdin:
         json_str += line
 
-    json_vars = json.loads(json_str.decode('string_escape'))
+    print json_str
+
+    json_vars = json.loads(json_str)
 
     with open(args.output, 'w') as f:
         for k,v in json_vars.iteritems():
