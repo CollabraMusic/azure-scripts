@@ -66,4 +66,5 @@ echo "$ENV" | python ./set-env.py -o /var/www/recording-api/source/.env
 #chmod +x ./afs-utils-0.1.sh
 #bash ./afs-utils-0.1.sh -a "$STORAGE_ACCOUNT_NAME" -p -c -s "$MNT_SHARE_NAME" -b "$MNT_SHARE_NAME" -k  "$STORAGE_ACCESS_KEY"
 
-bash HOME=/root PM2_HOME=/root/.pm2 pm2 restart all
+bash export HOME=/root PM2_HOME=/root/.pm2
+bash pm2 restart all
