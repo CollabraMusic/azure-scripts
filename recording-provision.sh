@@ -61,8 +61,9 @@ require_opt "$MNT_SHARE_DIR" "--mnt-share-dir"
 require_opt "$STORAGE_ACCESS_KEY" "--storage-access-key"
 
 chmod +x ./set-env.py
-echo "$ENV" | python ./set-env.py
+echo "$ENV" | python ./set-env.py -o /var/www/recording-api/source/.env
 
 #chmod +x ./afs-utils-0.1.sh
 #bash ./afs-utils-0.1.sh -a "$STORAGE_ACCOUNT_NAME" -p -c -s "$MNT_SHARE_NAME" -b "$MNT_SHARE_NAME" -k  "$STORAGE_ACCESS_KEY"
 
+bash pm2 restart all
