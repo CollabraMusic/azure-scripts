@@ -183,8 +183,8 @@ echo "
 }
 " > "/etc/nginx/sites-enabled/recording-api.collabramusic.com"
 
-echo "$SSL_CERT" | openssl -d -A > /etc/nginx/certs/collabramusic.com.chained.crt
-echo "$SSL_KEY" | openssl -d -A > /etc/nginx/certs/collabramusic.com.key
+echo "$SSL_CERT" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.chained.crt
+echo "$SSL_KEY" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.key
 
 nginx -s reload
 log "Nginx reloaded configuration"
