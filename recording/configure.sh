@@ -66,8 +66,7 @@ echo "$ENV" | python ./set-env-0.1.py -o /var/www/recording-api/source/.env
 chmod +x ./afs-utils-0.1.sh
 bash ./afs-utils-0.1.sh -a "$STORAGE_ACCOUNT_NAME" -p -c -s "$MNT_SHARE_NAME" -b "$MNT_SHARE_DIR" -k  "$STORAGE_ACCESS_KEY"
 
-export HOME=/root PM2_HOME=/root/.pm2
-node /usr/bin/pm2 restart all
+HOME=/root PM2_HOME=/root/.pm2 node /usr/bin/pm2 restart all
 
 bashrc="/home/azureuser/.bashrc"
 sudo_alias="alias sudo='sudo '"
@@ -81,3 +80,77 @@ if ! grep -Fxp "$pm2_alias" "$bashrc";
 then
     echo "$pm2_alias" >> "$bashrc"
 fi
+
+
+echo "
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+
+events {
+    worker_connections 768;
+    # multi_accept on;
+}
+
+http {
+    ##
+    # SSL
+    ##
+    ssl_session_cache    shared:SSL:10m;
+    ssl_session_timeout    10m;
+
+    ##
+    # Basic Settings
+    ##
+
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    # server_tokens off;
+
+    # server_names_hash_bucket_size 64;
+    # server_name_in_redirect off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ##
+    # Logging Settings
+    ##
+
+    access_log /var/log/nginx/access.log;
+    error_log /var/log/nginx/error.log;
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+    gzip_disable \"msie6\";
+
+    # gzip_vary on;
+    # gzip_proxied any;
+    # gzip_comp_level 6;
+    # gzip_buffers 16 8k;
+    # gzip_http_version 1.1;
+    # gzip_types text/plain text/css application/json application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+    ##
+    # nginx-naxsi config
+    ##
+    # Uncomment it if you installed nginx-naxsi
+    ##
+
+    #include /etc/nginx/naxsi_core.rules;
+
+
+    ##
+    # Virtual Host Configs
+    ##
+
+    include /etc/nginx/sites-enabled/*;
+}
+" > "/etc/nginx/nginx.conf"
+
