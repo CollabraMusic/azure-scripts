@@ -168,3 +168,5 @@ echo "
     }
 }
 " > "/etc/nginx/sites-enabled/recording-api.collabramusic.com"
+
+nginx -s reload
