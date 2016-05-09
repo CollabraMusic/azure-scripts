@@ -70,14 +70,14 @@ HOME=/root PM2_HOME=/root/.pm2 node /usr/bin/pm2 restart all
 
 bashrc="/home/azureuser/.bashrc"
 sudo_alias="alias sudo='sudo '"
-if ! grep -Fxp "$sudo_alias" "$bashrc";
+if ! grep -Fxq "$sudo_alias" "$bashrc";
 then
     log "Adding alias for sudo, pm2 support"
     echo "$sudo_alias" >> "$bashrc"
 fi
 
 pm2_alias="alias pm2='HOME=/root PM2_HOME=/root/.pm2 pm2'"
-if ! grep -Fxp "$pm2_alias" "$bashrc";
+if ! grep -Fxq "$pm2_alias" "$bashrc";
 then
     log "Adding alias for pm2"
     echo "$pm2_alias" >> "$bashrc"
