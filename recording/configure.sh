@@ -5,6 +5,8 @@ STORAGE_ACCOUNT_NAME=
 MNT_SHARE_NAME=
 MNT_SHARE_DIR=
 STORAGE_ACCESS_KEY=
+SSL_CERT=
+SSL_KEY=
 
 error()
 {
@@ -47,6 +49,14 @@ while :; do
             STORAGE_ACCESS_KEY="$2"
             shift
             ;;
+        --ssl-key)
+            SSL_KEY="$2"
+            shift
+            ;;
+        --ssl-cert)
+            SSL_CERT="$2"
+            shift
+            ;;
         *)
             break
     esac
@@ -59,6 +69,8 @@ require_opt "$STORAGE_ACCOUNT_NAME" "--storage-account-name"
 require_opt "$MNT_SHARE_NAME" "--mnt-share-name"
 require_opt "$MNT_SHARE_DIR" "--mnt-share-dir"
 require_opt "$STORAGE_ACCESS_KEY" "--storage-access-key"
+require_opt "$SSL_KEY" "--ssl-key"
+require_opt "$SSL_CERT" "--ssl-cert"
 
 chmod +x ./set-env-0.1.py
 echo "$ENV" | python ./set-env-0.1.py -o /var/www/recording-api/source/.env
@@ -170,6 +182,9 @@ echo "
     }
 }
 " > "/etc/nginx/sites-enabled/recording-api.collabramusic.com"
+
+echo "$SSL_CERT" | openssl -d -A > /etc/nginx/certs/collabramusic.com.chained.crt
+echo "$SSL_KEY" | openssl -d -A > /etc/nginx/certs/collabramusic.com.key
 
 nginx -s reload
 log "Nginx reloaded configuration"
