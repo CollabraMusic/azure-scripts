@@ -1,6 +1,6 @@
 #!/bin/bash
 
-ENV="{"
+ENV=
 STORAGE_ACCOUNT_NAME=
 MNT_SHARE_NAME=
 MNT_SHARE_DIR=
