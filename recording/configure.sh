@@ -154,3 +154,17 @@ http {
 }
 " > "/etc/nginx/nginx.conf"
 
+echo "
+    server {
+    listen 443 ssl;
+    include /etc/nginx/include.d/ssl;
+
+    location / {
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade \$http_upgrade;
+        proxy_set_header Connection \"upgrade\";
+        include /etc/nginx/include.d/proxy_headers;
+        proxy_pass http://127.0.0.1:3000;
+    }
+}
+" > "/etc/nginx/sites-enabled/recording-api.collabramusic.com"
