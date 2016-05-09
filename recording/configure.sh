@@ -68,3 +68,17 @@ bash ./afs-utils-0.1.sh -a "$STORAGE_ACCOUNT_NAME" -p -c -s "$MNT_SHARE_NAME" -b
 
 export HOME=/root PM2_HOME=/root/.pm2
 node /usr/bin/pm2 restart all
+
+bashrc = /home/azureuser/.bashrc
+sudo_alias = "alias sudo = 'sudo '"
+if [ ! grep -Fxp "$sudo_alias" "$bashrc" ];
+then
+    echo "$sudo_alias" >> "$bashrc"
+fi
+
+pm2_alias = "alias pm2='HOME=/root PM2_HOME=/root/.pm2 pm2'"
+if [ ! grep -Fxp "$pm2_alias" "$bashrc" ];
+then
+    echo "$pm2_alias" >> "$bashrc"
+fi
+
