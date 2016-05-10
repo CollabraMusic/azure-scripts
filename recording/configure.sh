@@ -187,6 +187,8 @@ echo "
 }
 " > "/etc/nginx/sites-enabled/recording-api"
 
+mkdir -p /etc/nginx/certs
+
 echo "$SSL_CERT" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.chained.crt
 echo "$SSL_KEY" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.key
 
