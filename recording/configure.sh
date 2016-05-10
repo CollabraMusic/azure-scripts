@@ -78,8 +78,7 @@ echo "$ENV" | python ./set-env-0.1.py -o /var/www/recording-api/source/.env
 chmod +x ./afs-utils-0.1.sh
 bash ./afs-utils-0.1.sh -a "$STORAGE_ACCOUNT_NAME" -p -c -s "$MNT_SHARE_NAME" -b "$MNT_SHARE_DIR" -k  "$STORAGE_ACCESS_KEY"
 
-service pm2-init.sh start
-HOME=/root PM2_HOME=/root/.pm2 node /usr/bin/pm2 restart all
+service pm2-init.sh restart
 
 bashrc="/home/azureuser/.bashrc"
 sudo_alias="alias sudo='sudo '"
