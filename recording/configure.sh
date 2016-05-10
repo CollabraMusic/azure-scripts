@@ -171,17 +171,21 @@ http {
 echo "
     server {
     listen 443 ssl;
-    include /etc/nginx/include.d/ssl;
+    keepalive_timeout	70;
+    ssl_certificate		certs/collabramusic.com.chained.crt;
+    ssl_certificate_key	certs/collabramusic.com.key;
 
     location / {
         proxy_http_version 1.1;
         proxy_set_header Upgrade \$http_upgrade;
         proxy_set_header Connection \"upgrade\";
-        include /etc/nginx/include.d/proxy_headers;
+        proxy_set_header Host \$host:\$server_port;
+        proxy_set_header X-Real-IP \$remote_addr;
+        proxy_set_header X-Forwarded-Proto \$scheme;
         proxy_pass http://127.0.0.1:3000;
     }
 }
-" > "/etc/nginx/sites-enabled/recording-api.collabramusic.com"
+" > "/etc/nginx/sites-enabled/recording-api"
 
 echo "$SSL_CERT" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.chained.crt
 echo "$SSL_KEY" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.key
