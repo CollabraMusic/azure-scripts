@@ -1,6 +1,7 @@
 #!/bin/bash
 TURN_USERNAME=
 TURN_PASSWORD=
+TURN_EXTERNAL_IP=
 
 error()
 {
@@ -31,6 +32,10 @@ while :; do
             TURN_PASSWORD="$2"
             shift
             ;;
+        --turn-external-ip)
+            TURN_EXTERNAL_IP="$2"
+            shift
+            ;;
         *)
             break
     esac
@@ -40,6 +45,7 @@ done
 
 require_opt "$TURN_USERNAME" "--turn-username"
 require_opt "$TURN_PASSWORD" "--turn-password"
+require_opt "$TURN_EXTERNAL_IP" "--turn-external-ip-address"
 
 apt-get update
 apt-get install -y coturn
@@ -47,6 +53,7 @@ apt-get install -y coturn
 echo "TURNSERVER_ENABLED=1" > /etc/default/coturn
 echo "lt-cred-mech
 realm=default
+external-ip=$TURN_EXTERNAL_IP
 " > /etc/turnserver.conf
 turnadmin -a -u "$TURN_USERNAME" -p "$TURN_PASSWORD" -r default
 service coturn restart
