@@ -7,6 +7,7 @@ MNT_SHARE_DIR=
 STORAGE_ACCESS_KEY=
 SSL_CERT=
 SSL_KEY=
+STUN_IP_ADDRESS=
 
 error()
 {
@@ -57,6 +58,10 @@ while :; do
             SSL_CERT="$2"
             shift
             ;;
+         --stun-ip-address)
+            STUN_IP_ADDRESS="$2"
+            shift
+            ;;
         *)
             break
     esac
@@ -71,6 +76,7 @@ require_opt "$MNT_SHARE_DIR" "--mnt-share-dir"
 require_opt "$STORAGE_ACCESS_KEY" "--storage-access-key"
 require_opt "$SSL_KEY" "--ssl-key"
 require_opt "$SSL_CERT" "--ssl-cert"
+require_opt "$STUN_IP_ADDRESS" "--stun-ip-address"
 
 chmod +x ./set-env-0.1.py
 echo "$ENV" | python ./set-env-0.1.py -o /var/www/recording-api/source/.env
@@ -191,6 +197,11 @@ mkdir -p /etc/nginx/certs
 
 echo "$SSL_CERT" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.chained.crt
 echo "$SSL_KEY" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.key
+
+echo "
+stunServerAddress=$STUN_IP_ADDRESS
+stunServerPort=3478
+" > /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
 
 nginx -s reload
 log "Nginx reloaded configuration"
