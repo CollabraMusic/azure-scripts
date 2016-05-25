@@ -8,6 +8,7 @@ STORAGE_ACCESS_KEY=
 SSL_CERT=
 SSL_KEY=
 STUN_IP_ADDRESS=
+AZURE_SERVICEBUS_ACCESS_KEY=
 
 error()
 {
@@ -58,8 +59,12 @@ while :; do
             SSL_CERT="$2"
             shift
             ;;
-         --stun-ip-address)
+        --stun-ip-address)
             STUN_IP_ADDRESS="$2"
+            shift
+            ;;
+        --azure-servicebus-access-key)
+            AZURE_SERVICEBUS_ACCESS_KEY="$2"
             shift
             ;;
         *)
@@ -77,9 +82,12 @@ require_opt "$STORAGE_ACCESS_KEY" "--storage-access-key"
 require_opt "$SSL_KEY" "--ssl-key"
 require_opt "$SSL_CERT" "--ssl-cert"
 require_opt "$STUN_IP_ADDRESS" "--stun-ip-address"
+require_opt "$AZURE_SERVICEBUS_ACCESS_KEY" "--azure-servicebus-access-key"
 
 chmod +x ./set-env-0.1.py
-echo "$ENV" | python ./set-env-0.1.py -o /var/www/recording-api/source/.env
+ENV_PATH=/var/www/recording-api/source/.env
+echo "$ENV" | python ./set-env-0.1.py -o "$ENV_PATH"
+echo "AZURE_SERVICEBUS_ACCESS_KEY=$AZURE_SERVICEBUS_ACCESS_KEY" >> "$ENV_PATH"
 
 chmod +x ./afs-utils-0.1.sh
 bash ./afs-utils-0.1.sh -a "$STORAGE_ACCOUNT_NAME" -p -c -s "$MNT_SHARE_NAME" -b "$MNT_SHARE_DIR" -k  "$STORAGE_ACCESS_KEY"
