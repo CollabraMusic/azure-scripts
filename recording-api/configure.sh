@@ -211,5 +211,7 @@ stunServerAddress=$STUN_IP_ADDRESS
 stunServerPort=3478
 " > /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
 
+service kurento-media-server-6.0 restart
+
 nginx -s reload
 log "Nginx reloaded configuration"
