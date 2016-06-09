@@ -158,7 +158,12 @@ mount_share() {
             error "location ${mount_location} is already mounted to a different share"
         fi
 
-        [ -d "${mount_location}" ] || ( log "creating mount_location" && mkdir -p "${mount_location}")
+        if [ ! -d "${mount_location}" ];
+        then
+            log "creating mount_location"
+            mkdir -p "$mount_location"
+        fi
+
         log "mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}"
         mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}
 
