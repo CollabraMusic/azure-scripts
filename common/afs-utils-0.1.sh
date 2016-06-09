@@ -153,7 +153,7 @@ mount_share() {
     else
         log "mounting share $share_name at $mount_location"
 
-        if [ $(cat /etc/mtab | grep -o "${mount_location}")];
+        if [ $(cat /etc/mtab | grep -o "${mount_location}") ];
         then
             error "location ${mount_location} is already mounted to a different share"
         fi
