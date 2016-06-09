@@ -143,7 +143,7 @@ mount_share() {
     mount_share="//${STORAGE_ACCOUNT}.file.core.windows.net/${SHARE_NAME}"
 
     log "creating credentials at ${creds_file}"
-    echo "username=${STORAGE_ACCOUNT}" >> ${creds_file}
+    echo "username=${STORAGE_ACCOUNT}" > ${creds_file}
     echo "password=${ACCESS_KEY}" >> ${creds_file}
     chmod 600 ${creds_file}
 
