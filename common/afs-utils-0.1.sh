@@ -141,7 +141,7 @@ mount_share() {
     creds_file="/etc/cifs.${share_name}"
     mount_options="vers=3.0,dir_mode=0777,file_mode=0777,credentials=${creds_file}"
     mount_share="//${STORAGE_ACCOUNT}.file.core.windows.net/${SHARE_NAME}"
-    
+
     log "creating credentials at ${creds_file}"
     echo "username=${STORAGE_ACCOUNT}" >> ${creds_file}
     echo "password=${ACCESS_KEY}" >> ${creds_file}
@@ -159,6 +159,7 @@ mount_share() {
         fi
 
         [ -d "${mount_location}" ] || mkdir -p "${mount_location}"
+        log "mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}"
         mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}
 
         if [ ! $(cat /etc/mtab | grep -o "${mount_location}") ];
