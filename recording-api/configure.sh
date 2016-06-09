@@ -1,4 +1,6 @@
 #!/bin/bash
+set -euo pipefail
+IFS=$'\n\t'
 
 ENV=
 STORAGE_ACCOUNT_NAME=
