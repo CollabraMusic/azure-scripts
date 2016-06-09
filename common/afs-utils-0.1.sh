@@ -161,7 +161,7 @@ mount_share() {
         if [ ! -d "${mount_location}" ];
         then
             log "creating mount_location"
-            mkdir -p "$mount_location"
+            mkdir -p "${mount_location}"
         fi
 
         log "mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}"
