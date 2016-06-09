@@ -90,7 +90,7 @@ echo "$ENV" | python ./set-env-0.1.py -o "$ENV_PATH"
 echo "AZURE_SERVICEBUS_ACCESS_KEY=$AZURE_SERVICEBUS_ACCESS_KEY" >> "$ENV_PATH"
 
 chmod +x ./afs-utils-0.1.sh
-bash ./afs-utils-0.1.sh -a "$STORAGE_ACCOUNT_NAME" -p -c -s "$MNT_SHARE_NAME" -b "$MNT_SHARE_DIR" -k  "$STORAGE_ACCESS_KEY"
+./afs-utils-0.1.sh -a "$STORAGE_ACCOUNT_NAME" -p -c -s "$MNT_SHARE_NAME" -b "$MNT_SHARE_DIR" -k  "$STORAGE_ACCESS_KEY"
 
 service pm2-init.sh restart
 
