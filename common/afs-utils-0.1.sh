@@ -164,8 +164,6 @@ mount_share() {
             mkdir -p "$mount_location"
         fi
 
-        return;
-
         log "mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}"
         mount -t cifs ${mount_share} ${mount_location} -o ${mount_options}
 
