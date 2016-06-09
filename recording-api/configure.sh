@@ -32,41 +32,43 @@ require_opt()
 }
 
 while :; do
-    case "$1" in
+    name=${1:-}
+    value=${2:-}
+    case "$name" in
         --env)
-            ENV="$2"
+            ENV="$value"
             shift
             ;;
         --storage-account-name)
-            STORAGE_ACCOUNT_NAME="$2"
+            STORAGE_ACCOUNT_NAME="$value"
             shift
             ;;
         --mnt-share-name)
-            MNT_SHARE_NAME="$2"
+            MNT_SHARE_NAME="$value"
             shift
             ;;
         --mnt-share-dir)
-            MNT_SHARE_DIR="$2"
+            MNT_SHARE_DIR="$value"
             shift
             ;;
         --storage-access-key)
-            STORAGE_ACCESS_KEY="$2"
+            STORAGE_ACCESS_KEY="$value"
             shift
             ;;
         --ssl-key)
-            SSL_KEY="$2"
+            SSL_KEY="$value"
             shift
             ;;
         --ssl-cert)
-            SSL_CERT="$2"
+            SSL_CERT="$value"
             shift
             ;;
         --stun-ip-address)
-            STUN_IP_ADDRESS="$2"
+            STUN_IP_ADDRESS="$value"
             shift
             ;;
         --azure-servicebus-access-key)
-            AZURE_SERVICEBUS_ACCESS_KEY="$2"
+            AZURE_SERVICEBUS_ACCESS_KEY="$value"
             shift
             ;;
         *)
