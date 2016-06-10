@@ -3,7 +3,7 @@ set -euo pipefail
 IFS=$'\n\t'
 
 # Fixes errors with stdin is not a tty
-sed -i '/tty/!s/mesg n/tty -s \\&\\& mesg n/' /root/.profile
+sed -i 's/^mesg n$/tty -s \&\& mesg n/g' /root/.profile
 
 ENV=
 STORAGE_ACCOUNT_NAME=
