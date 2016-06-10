@@ -2,6 +2,9 @@
 set -euo pipefail
 IFS=$'\n\t'
 
+# Fixes errors with stdin is not a tty
+sed -i 's/^mesg n$/tty -s \&\& mesg -n/' /root/.profile
+
 ENV=
 STORAGE_ACCOUNT_NAME=
 MNT_SHARE_NAME=
