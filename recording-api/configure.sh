@@ -33,8 +33,12 @@ require_opt()
 
 log_kurento_running()
 {
+    set +e
     curl -s http://127.0.0.1:8888
-    if [ $? == 0 ];
+    retval=$?
+    set -e
+
+    if [ retval == 0 ];
     then
         log "Kurento is running"
     else
