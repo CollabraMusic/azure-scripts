@@ -31,6 +31,17 @@ require_opt()
     fi
 }
 
+log_kurento_running()
+{
+    curl http://127.0.0.1
+    if [ $? == 0 ];
+    then
+        log "Kurento is running"
+    else
+        log "Kurento isn't running"
+    fi
+}
+
 while :; do
     name=${1:-}
     value=${2:-}
@@ -87,6 +98,8 @@ require_opt "$SSL_KEY" "--ssl-key"
 require_opt "$SSL_CERT" "--ssl-cert"
 require_opt "$STUN_IP_ADDRESS" "--stun-ip-address"
 require_opt "$AZURE_SERVICEBUS_ACCESS_KEY" "--azure-servicebus-access-key"
+
+log_kurento_running
 
 chmod +x ./set-env-0.1.py
 ENV_PATH=/var/www/recording-api/source/.env
@@ -216,7 +229,11 @@ stunServerAddress=$STUN_IP_ADDRESS
 stunServerPort=3478
 " > /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
 
+log "Restarting Kurento"
+
 service kurento-media-server-6.0 restart
+
+log_kurento_running
 
 nginx -s reload
 log "Nginx reloaded configuration"
