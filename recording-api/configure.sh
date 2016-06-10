@@ -41,9 +41,9 @@ log_kurento_running()
     retval=$?
     set -e
 
-    echo retval
+    echo ${retval}
 
-    if [ retval == 0 ];
+    if [ ${retval} == 0 ];
     then
         log "Kurento is running"
     else
