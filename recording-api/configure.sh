@@ -1,9 +1,4 @@
 #!/bin/bash
-set -euo pipefail
-IFS=$'\n\t'
-
-# Fixes errors with stdin is not a tty
-sed -i 's/^mesg n$/tty -s \&\& mesg -n/' /root/.profile
 
 ENV=
 STORAGE_ACCOUNT_NAME=
@@ -31,23 +26,6 @@ require_opt()
     if [ ! "$1" ];
     then
         error "$2 argument is required"
-    fi
-}
-
-log_kurento_running()
-{
-    set +e
-    curl -s http://127.0.0.1:8888
-    retval=$?
-    set -e
-
-    echo ${retval}
-
-    if [ ${retval} == 0 ];
-    then
-        log "Kurento is running"
-    else
-        log "Kurento isn't running"
     fi
 }
 
@@ -107,8 +85,6 @@ require_opt "$SSL_KEY" "--ssl-key"
 require_opt "$SSL_CERT" "--ssl-cert"
 require_opt "$STUN_IP_ADDRESS" "--stun-ip-address"
 require_opt "$AZURE_SERVICEBUS_ACCESS_KEY" "--azure-servicebus-access-key"
-
-log_kurento_running
 
 chmod +x ./set-env-0.1.py
 ENV_PATH=/var/www/recording-api/source/.env
@@ -239,10 +215,7 @@ stunServerPort=3478
 " > /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
 
 log "Restarting Kurento"
-
 service kurento-media-server-6.0 restart
-
-log_kurento_running
 
 nginx -s reload
 log "Nginx reloaded configuration"
