@@ -220,5 +220,17 @@ stunServerPort=3478
 log "Starting Kurento"
 service kurento-media-server-6.0 start
 
+log "Restarting Kurento"
+service kurento-media-server-6.0 restart
+
+log "Restarting Kurento"
+service kurento-media-server-6.0 restart
+
+log "Restarting Kurento"
+service kurento-media-server-6.0 restart
+
+log "Restarting Kurento"
+service kurento-media-server-6.0 restart
+
 nginx -s reload
 log "Nginx reloaded configuration"
