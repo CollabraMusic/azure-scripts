@@ -214,6 +214,7 @@ stunServerAddress=$STUN_IP_ADDRESS
 stunServerPort=3478
 " > /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
 
+export GST_DEBUG=Kurento*:5
 log "Restarting Kurento"
 service kurento-media-server-6.0 restart
 
