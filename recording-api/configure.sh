@@ -235,7 +235,7 @@ service kurento-media-server-6.0 stop
 log_port_open 8888
 
 log "Sleeping for 10 seconds"
-sleep 10000
+sleep 10
 
 log_port_open 8888
 
