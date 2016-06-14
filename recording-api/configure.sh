@@ -29,10 +29,15 @@ require_opt()
     fi
 }
 
-log_port_open () {
+port_open () {
   PORT="$1"
 
   nc -z 127.0.0.1 "$PORT"
+}
+
+log_port_open () {
+  port_open "$1"
+
   if [ $? -eq 0 ];
   then
     log "$PORT is open, something is listening on it"
@@ -226,6 +231,11 @@ log_port_open 8888
 
 log "Stopping Kurento"
 service kurento-media-server-6.0 stop
+
+log_port_open 8888
+
+log "Sleeping for 10 seconds"
+sleep 10000
 
 log_port_open 8888
 
