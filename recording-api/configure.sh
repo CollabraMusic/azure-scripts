@@ -29,6 +29,19 @@ require_opt()
     fi
 }
 
+log_port_open () {
+  PORT="$1"
+
+  nc -z 127.0.0.1 "$PORT"
+  if [ $? -eq 0 ];
+  then
+    log "$PORT is open, something is listening on it"
+  else
+    log "$PORT is closed, nothing bound to port"
+  fi
+}
+
+
 while :; do
     name=${1:-}
     value=${2:-}
@@ -209,19 +222,24 @@ mkdir -p /etc/nginx/certs
 echo "$SSL_CERT" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.chained.crt
 echo "$SSL_KEY" | openssl base64 -d -A > /etc/nginx/certs/collabramusic.com.key
 
+log_port_open 8888
+
 log "Stopping Kurento"
 service kurento-media-server-6.0 stop
+
+log_port_open 8888
 
 echo "
 stunServerAddress=$STUN_IP_ADDRESS
 stunServerPort=3478
 " > /etc/kurento/modules/kurento/WebRtcEndpoint.conf.ini
 
+log_port_open 8888
+
 log "Starting Kurento"
 service kurento-media-server-6.0 start
 
-log "Restarting Kurento"
-service kurento-media-server-6.0 restart
+log_port_open 8888
 
 nginx -s reload
 log "Nginx reloaded configuration"
