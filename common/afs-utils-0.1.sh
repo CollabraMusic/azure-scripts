@@ -206,7 +206,7 @@ create_keep_alive_hack() {
     #!/bin/bash
 
     for mount_point in `grep file.core.windows.net /etc/mtab | tr '\t' ' ' | cut -d' ' -f2`; do
-      touch -am \${mount_point}/\$(hostname)
+      touch -am \${mount_point}/\$(hostname).keepalive
     done
     " > ${SMB_KEEP_ALIVE_PATH}
 
