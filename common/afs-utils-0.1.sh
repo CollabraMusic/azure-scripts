@@ -200,6 +200,24 @@ mount_share() {
     fi
 }
 
+create_keep_alive_hack() {
+    SMB_KEEP_ALIVE_PATH=/usr/local/sbin/smb-keep-alive.sh
+    echo "
+    #!/bin/bash
+
+    for mount_point in `grep file.core.windows.net /etc/mtab | tr '\t' ' ' | cut -d' ' -f2`; do
+      touch -am \${mount_point}/\$(hostname)
+    done
+    " > ${SMB_KEEP_ALIVE_PATH}
+
+    chmod +x ${SMB_KEEP_ALIVE_PATH}
+
+    SMB_KEEP_ALIVE_CRON_PATH=/etc/cron.d/smb-keep-alive
+    echo "
+    * * * * * root /usr/local/sbin/smb-keep-alive.sh
+    " > ${SMB_KEEP_ALIVE_CRON_PATH}
+}
+
 #######################################
 
 if [ "${UID}" -ne 0 ];
@@ -246,3 +264,5 @@ then
     mount_share "$SHARE_NAME" "${BASE_DIRECTORY}/${SHARE_NAME}" $PERSIST
 fi
 
+### create the keep smb alive hack
+create_keep_alive_hack
